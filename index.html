@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>SKKUSY | 편입 영어 아카이브</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --primary: #daf0fb;
+      --secondary: #fff0f0;
+      --bg: #f7f9fc;
+      --text-main: #1f2933;
+      --text-sub: #6b7280;
+      --border-soft: #e5e7eb;
+      --card-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      --transition-fast: 0.18s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Pretendard", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #daf0fb 0, #fff0f0 40%, #f7f9fc 80%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    .app-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--card-shadow);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 1px;
+      color: #243b53;
+    }
+
+    .brand-text-main {
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-text-sub {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 3px;
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      font-size: 11px;
+      color: var(--text-sub);
+      white-space: nowrap;
+    }
+
+    nav {
+      position: sticky;
+      top: 10px;
+      z-index: 10;
+      margin-bottom: 18px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 6px 18px rgba(148, 163, 184, 0.25);
+    }
+
+    .nav-tab {
+      border: none;
+      background: transparent;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast),
+        box-shadow var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .nav-tab.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #1f2933;
+      box-shadow: 0 6px 14px rgba(148, 163, 184, 0.55);
+      transform: translateY(-1px);
+    }
+
+    .content-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.2fr);
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 880px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .content-shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      nav {
+        position: static;
+      }
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: var(--radius-xl);
+      padding: 18px 18px 20px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-title span.icon {
+      font-size: 18px;
+    }
+
+    .panel-sub {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .small-muted {
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    input[type="month"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      font-size: 13px;
+      background: #f9fafb;
+      outline: none;
+      transition: border var(--transition-fast), box-shadow var(--transition-fast),
+        background var(--transition-fast);
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 1px rgba(147, 197, 253, 0.6);
+      background: #ffffff;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+      font-weight: 500;
+      color: #4b5563;
+    }
+
+    .field-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .field {
+      flex: 1;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      border-radius: 999px;
+      font-size: 12px;
+      padding: 7px 14px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      transition: background var(--transition-fast), transform var(--transition-fast),
+        box-shadow var(--transition-fast), opacity var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 8px 18px rgba(148, 163, 184, 0.45);
+      color: #1f2933;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(148, 163, 184, 0.7);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px dashed rgba(148, 163, 184, 0.8);
+      color: var(--text-sub);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(248, 250, 252, 0.9);
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .btn-small {
+      padding: 3px 8px;
+      font-size: 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: #f9fafb;
+      cursor: pointer;
+    }
+
+    .btn-small + .btn-small {
+      margin-left: 4px;
+    }
+
+    .item-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .item-card {
+      padding: 9px 10px;
+      border-radius: var(--radius-lg);
+      background: #f9fafb;
+      border: 1px solid rgba(229, 231, 235, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .item-main {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .item-meta {
+      font-size: 11px;
+      color: var(--text-sub);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pill-soft {
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(218, 240, 251, 0.8);
+      font-size: 10px;
+      color: #1e40af;
+    }
+
+    .goal-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .goal-item {
+      font-size: 13px;
+      padding: 7px 9px;
+      border-radius: 10px;
+      background: #f9fafb;
+      border: 1px dashed rgba(209, 213, 219, 0.9);
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .goal-item span.label {
+      font-weight: 500;
+    }
+
+    .home-section {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .goal-quote {
+      border-radius: 18px;
+      padding: 14px 14px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background:
+        linear-gradient(120deg, rgba(218, 240, 251, 0.6), rgba(255, 240, 240, 0.6));
+    }
+
+    .goal-quote-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #4b5563;
+      margin-bottom: 4px;
+    }
+
+    .goal-quote-text {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #1f2933;
+      margin-bottom: 6px;
+    }
+
+    .goal-quote-sub {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .home-goals {
+      display: grid;
+      grid-template-columns: 2.1fr 1.2fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 720px) {
+      .home-goals {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .progress-bar-shell {
+      width: 100%;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(226, 232, 240, 0.9);
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #60a5fa, #f97373);
+      width: 42%;
+    }
+
+    .study-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .study-tag {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(255, 240, 240, 0.9);
+      color: #b91c1c;
+    }
+
+    .today-day-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #fff9c4;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .today-day-label span.badge {
+      font-size: 11px;
+      font-weight: 500;
+      color: #92400e;
+      opacity: 0.9;
+    }
+
+    .checklist {
+      border-radius: 14px;
+      border: 1px dashed rgba(209, 213, 219, 0.9);
+      padding: 8px 10px;
+      background: #f9fafb;
+      min-height: 90px;
+    }
+
+    .check-item-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .check-item-row input[type="checkbox"] {
+      margin-top: 3px;
+      cursor: pointer;
+    }
+
+    .check-item-text {
+      flex: 1;
+      border: none;
+      border-bottom: 1px dashed #e5e7eb;
+      background: transparent;
+      font-size: 13px;
+      padding: 2px 0;
+      outline: none;
+    }
+
+    .checklist-placeholder {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .calendar-grid {
+      margin-top: 8px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .calendar-header-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 6px 0;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .calendar-header-cell {
+      color: #1f2933;
+    }
+
+    .calendar-body {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      background: #ffffff;
+    }
+
+    .calendar-cell {
+      border-top: 1px solid rgba(243, 244, 246, 0.9);
+      border-right: 1px solid rgba(243, 244, 246, 0.9);
+      min-height: 54px;
+      padding: 4px 4px 6px;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .calendar-cell:nth-child(7n) {
+      border-right: none;
+    }
+
+    .calendar-day-num {
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .calendar-tag {
+      margin-top: 1px;
+      padding: 2px 4px;
+      border-radius: 6px;
+      font-size: 10px;
+      background: #fff9c4;
+      color: #92400e;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .calendar-index {
+      margin-top: 2px;
+      padding: 2px 4px;
+      border-radius: 6px;
+      font-size: 10px;
+      background: #ede9fe;
+      color: #5b21b6;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .schedule-detail {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
+      font-size: 12px;
+    }
+
+    .schedule-detail-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .schedule-detail-row {
+      margin-bottom: 2px;
+    }
+
+    .schedule-detai
+
+  <style>
+    :root {
+      --primary: #daf0fb;
+      --secondary: #fff0f0;
+      --bg: #f7f9fc;
+      --text-main: #1f2933;
+      --text-sub: #6b7280;
+      --border-soft: #e5e7eb;
+      --card-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      --transition-fast: 0.18s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Pretendard", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #daf0fb 0, #fff0f0 40%, #f7f9fc 80%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    .app-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--card-shadow);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 1px;
+      color: #243b53;
+    }
+
+    .brand-text-main {
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-text-sub {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 3px;
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      font-size: 11px;
+      color: var(--text-sub);
+      white-space: nowrap;
+    }
+
+    /* 네비게이션 */
+    nav {
+      position: sticky;
+      top: 10px;
+      z-index: 10;
+      margin-bottom: 18px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 6px 18px rgba(148, 163, 184, 0.25);
+    }
+
+    .nav-tab {
+      border: none;
+      background: transparent;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast),
+        box-shadow var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .nav-tab.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #1f2933;
+      box-shadow: 0 6px 14px rgba(148, 163, 184, 0.55);
+      transform: translateY(-1px);
+    }
+
+    /* 전체 레이아웃 */
+    .content-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.2fr);
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 880px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .content-shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      nav {
+        position: static;
+      }
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: var(--radius-xl);
+      padding: 18px 18px 20px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-title span.icon {
+      font-size: 18px;
+    }
+
+    .panel-sub {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .small-muted {
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    /* 입력, 버튼 공통 */
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    input[type="month"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      font-size: 13px;
+      background: #f9fafb;
+      outline: none;
+      transition: border var(--transition-fast), box-shadow var(--transition-fast),
+        background var(--transition-fast);
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 1px rgba(147, 197, 253, 0.6);
+      background: #ffffff;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+      font-weight: 500;
+      color: #4b5563;
+    }
+
+    .field-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .field {
+      flex: 1;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      border-radius: 999px;
+      font-size: 12px;
+      padding: 7px 14px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      transition: background var(--transition-fast), transform var(--transition-fast),
+        box-shadow var(--transition-fast), opacity var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 8px 18px rgba(148, 163, 184, 0.45);
+      color: #1f2933;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(148, 163, 184, 0.7);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px dashed rgba(148, 163, 184, 0.8);
+      color: var(--text-sub);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(248, 250, 252, 0.9);
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .btn-small {
+      padding: 3px 8px;
+      font-size: 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: #f9fafb;
+      cursor: pointer;
+    }
+
+    .btn-small + .btn-small {
+      margin-left: 4px;
+    }
+
+    .item-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .item-card {
+      padding: 9px 10px;
+      border-radius: var(--radius-lg);
+      background: #f9fafb;
+      border: 1px solid rgba(229, 231, 235, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .item-main {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .item-meta {
+      font-size: 11px;
+      color: var(--text-sub);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pill-soft {
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(218, 240, 251, 0.8);
+      font-size: 10px;
+      color: #1e40af;
+    }
+
+    .goal-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .goal-item {
+      font-size: 13px;
+      padding: 7px 9px;
+      border-radius: 10px;
+      background: #f9fafb;
+      border: 1px dashed rgba(209, 213, 219, 0.9);
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .goal-item span.label {
+      font-weight: 500;
+    }
+
+    /* 홈 화면 */
+    .home-section {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .goal-quote {
+      border-radius: 18px;
+      padding: 14px 14px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background:
+        linear-gradient(120deg, rgba(218, 240, 251, 0.6), rgba(255, 240, 240, 0.6));
+    }
+
+    .goal-quote-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #4b5563;
+      margin-bottom: 4px;
+    }
+
+    .goal-quote-text {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #1f2933;
+      margin-bottom: 6px;
+    }
+
+    .goal-quote-sub {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .home-goals {
+      display: grid;
+      grid-template-columns: 2.1fr 1.2fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 720px) {
+      .home-goals {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .progress-bar-shell {
+      width: 100%;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(226, 232, 240, 0.9);
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #60a5fa, #f97373);
+      width: 42%;
+    }
+
+    .study-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .study-tag {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(255, 240, 240, 0.9);
+      color: #b91c1c;
+    }
+
+    /* 오늘 체크리스트 */
+    .today-day-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #fff9c4;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .today-day-label span.badge {
+      font-size: 11px;
+      font-weight: 500;
+      color: #92400e;
+      opacity: 0.9;
+    }
+
+    .checklist {
+      border-radius: 14px;
+      border: 1px dashed rgba(209, 213, 219, 0.9);
+      padding: 8px 10px;
+      background: #f9fafb;
+      min-height: 90px;
+    }
+
+    .check-item-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .check-item-row input[type="checkbox"] {
+      margin-top: 3px;
+      cursor: pointer;
+    }
+
+    .check-item-text {
+      flex: 1;
+      border: none;
+      border-bottom: 1px dashed #e5e7eb;
+      background: transparent;
+      font-size: 13px;
+      padding: 2px 0;
+      outline: none;
+    }
+
+    .checklist-placeholder {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    /* 캘린더 */
+    .calendar-grid {
+      margin-top: 8px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .calendar-header-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 6px 0;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .calendar-header-cell {
+      color: #1f2933;
+    }
+
+    .calendar-body {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      background: #ffffff;
+    }
+
+    .calendar-cell {
+      border-top: 1px solid rgba(243, 244, 246, 0.9);
+      border-right: 1px solid rgba(243, 244, 246, 0.9);
+      min-height: 54px;
+      padding: 4px 4px 6px;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .calendar-cell:nth-child(7n) {
+      border-right: none;
+    }
+
+    .calendar-day-num {
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .calendar-tag {
+      margin-top: 1px;
+      padding: 2px 4px;
+      border-radius: 6px;
+      font-size: 10px;
+      background: #fff9c4; /* DAY용 연노랑 */
+      color: #92400e;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .calendar-index {
+      margin-top: 2px;
+      padding: 2px 4px;
+      border-radius: 6px;
+      font-size: 10px;
+      background: #ede9fe; /* 일정용 연보라 */
+      color: #5b21b6;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    /* 일정 상세 */
+    .schedule-detail {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
+      font-size: 12px;
+    }
+
+    .schedule-detail-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .schedule-detail-row {
+      margin-bottom: 2px;
+    }
+
+    .schedule-detail-row span.label {
+      font-weight: 500;
+      margin-right: 4px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* 자료 필터 */
+    .resource-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .filter-pill {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      background: #f9fafb;
+      cursor: pointer;
+      color: var(--text-sub);
+      transition: background var(--transition-fast), color var(--transition-fast),
+        border var(--transition-fast);
+    }
+
+    .filter-pill.active {
+      background: rgba(218, 240, 251, 0.95);
+      color: #1e40af;
+      border-color: #93c5fd;
+    }
+
+    .resource-title {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .resource-meta {
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+
+    /* 메모 */
+    .memo-section textarea {
+      min-height: 160px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .memo-hint {
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-top: 6px;
+    }
+
+    /* 탭 컨테이너 */
+    .view {
+      display: none;
+    }
+    .view.active {
+      display: block;
+      animation: fadeIn 0.18s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(3px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <div class="brand">
+        <div class="brand-logo">SY</div>
+        <div>
+          <div class="brand-text-main">SKKUSY</div>
+          <div class="brand-text-sub">
+            편입 영어 아카이브 · 김시윤 전용 기록 공간
+          </div>
+        </div>
+      </div>
+      <div class="tag-pill" id="dday-pill">
+        <span>🐱</span>
+        <span id="dday-text">D-000 · 2027-03-02까지</span>
+      </div>
+    </header>
+
+    <nav>
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-target="home-view">홈</button>
+        <button class="nav-tab" data-target="calendar-view">캘린더</button>
+        <button class="nav-tab" data-target="resources-view">자료</button>
+        <button class="nav-tab" data-target="study-view">공부</button>
+        <button class="nav-tab" data-target="memo-view">메모</button>
+      </div>
+    </nav>
+
+    <!-- 홈 -->
+    <main id="home-view" class="view active">
+      <div class="content-shell">
+        <!-- 왼쪽: FINAL GOAL + 이번 주 포커스 -->
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">
+                <span class="icon">🍒</span>
+                Siyoon's Desk
+              </div>
+            </div>
+          </div>
+
+          <div class="home-section">
+            <!-- 최종 목표 인용구 -->
+            <div class="goal-quote">
+              <div class="goal-quote-label">FINAL GOAL</div>
+              <div class="goal-quote-text">성균관대학교 경영학과 25학번 김시윤</div>
+              <div class="goal-quote-sub">
+                放下着, 着得去
+              </div>
+            </div>
+
+            <!-- 이번 주 포커스 + 체감 진도 -->
+            <div class="home-goals">
+              <div class="panel-sub">
+                <strong>이번 주 포커스</strong>
+                <ul class="goal-list">
+                  <li class="goal-item">
+                    <span class="label weekly-focus" data-focus-key="focus-1" contenteditable="true">
+                      독해: 지문 구조 분석 + 함의·빈칸 유형 정리
+                    </span>
+                  </li>
+                  <li class="goal-item">
+                    <span class="label weekly-focus" data-focus-key="focus-2" contenteditable="true">
+                      어휘: MVP vol.1 회독 진도 유지
+                    </span>
+                  </li>
+                  <li class="goal-item">
+                    <span class="label weekly-focus" data-focus-key="focus-3" contenteditable="true">
+                      문법: 자주 틀리는 포인트 오답노트화
+                    </span>
+                  </li>
+                  <li class="goal-item">
+                    <span class="label weekly-focus" data-focus-key="focus-4" contenteditable="true">
+                      논리: 논리 문제 1일 5문제 + 오답 패턴 파악
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <div class="panel-sub"><strong>이번 주 체감 진도</strong></div>
+                <div class="progress-bar-shell">
+                  <div class="progress-bar" id="weekly-progress-bar"></div>
+                </div>
+                <div class="small-muted" id="weekly-progress-text" contenteditable="true">
+                  이번 주는 계획의 약 40% 정도 채운 느낌입니다.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 오른쪽: 오늘 체크리스트 -->
+        <aside class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">
+                <span class="icon">✅</span>
+                오늘 체크리스트
+              </div>
+            </div>
+          </div>
+
+          <div class="today-day-label" id="today-day-label">
+            <span class="badge">오늘 DAY</span>
+            <span id="today-day-text">DAY --</span>
+          </div>
+          <div class="checklist" id="today-checklist">
+            <div id="checklist-items"></div>
+            <button class="btn-small" type="button" id="add-check-item">+ 항목 추가</button>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- 캘린더 -->
+    <main id="calendar-view" class="view">
+      <div class="content-shell">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">
+                <span class="icon">📆</span>
+                캘린더
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row" style="margin-bottom:6px;">
+            <div class="field">
+              <label for="calendar-month">월 선택</label>
+              <input type="month" id="calendar-month" />
+            </div>
+            <div class="field">
+              <label>&nbsp;</label>
+              <button class="btn-ghost" type="button" id="go-today-month">이번 달로 이동</button>
+            </div>
+          </div>
+
+          <div class="small-muted" id="calendar-month-label"></div>
+
+          <div class="calendar-grid">
+            <div class="calendar-header-row">
+              <div class="calendar-header-cell">월</div>
+              <div class="calendar-header-cell">화</div>
+              <div class="calendar-header-cell">수</div>
+              <div class="calendar-header-cell">목</div>
+              <div class="calendar-header-cell">금</div>
+              <div class="calendar-header-cell">토</div>
+              <div class="calendar-header-cell">일</div>
+            </div>
+            <div class="calendar-body" id="calendar-body">
+              <!-- JS로 7x6(42칸) 동적 생성 -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 일정 추가/목록 -->
+        <aside class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">
+                <span class="icon">⏰</span>
+                오늘 일정 추가
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="schedule-title">일정 제목</label>
+            <input id="schedule-title" type="text" placeholder="예: 독해 기출 5지문" />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="schedule-date">날짜</label>
+              <input id="schedule-date" type="date" />
+            </div>
+            <div class="field">
+              <label for="schedule-time">시간</label>
+              <input id="schedule-time" type="time" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="schedule-type">구분</label>
+            <select id="schedule-type">
+              <option>독해</option>
+              <option>어휘</option>
+              <option>문법</option>
+              <option>논리</option>
+              <option>실전</option>
+              <option>TOEIC</option>
+              <option>기타</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="schedule-place">장소/비고</label>
+            <input id="schedule-place" type="text" placeholder="예: 집, 독서실, 카페 등" />
+          </div>
+          <div class="btn-row">
+            <button class="btn-primary" type="button" id="add-schedule-btn">일정 추가</button>
+          </div>
+
+          <ul class="item-list" id="schedule-list" style="margin-top:10px;">
+            <!-- 동적 일정 목록 -->
+          </ul>
+
+          <div id="schedule-detail" class="schedule-detail hidden">
+            <div class="schedule-detail-title" id="detail-title"></div>
+            <div class="schedule-detail-row">
+              <span class="label">날짜</span><span id="detail-date"></span>
+            </div>
+            <div class="schedule-detail-row">
+              <span class="label">시간</span><span id="detail-time"></span>
+            </div>
+            <div class="schedule-detail-row">
+              <span class="label">구분</span><span id="detail-type"></span>
+            </div>
+            <div class="schedule-detail-row">
+              <span class="label">장소/비고</span><span id="detail-place"></span>
+            </div>
+            <div class="schedule-detail-row" style="text-align:right;margin-top:4px;">
+              <button class="btn-small" type="button" id="close-detail-btn">닫기</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- 자료 -->
+    <main id="resources-view" class="view">
+      <div class="content-shell">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">
+                <span class="icon">🗂️</span>
+                자료
+              </div>
+              <div class="panel-sub">
+                기출 PDF, 인강 노트, MVP vol.1 정리본 등 자료의 “목차”를 모아두는 공간
+              </div>
+            </div>
+          </div>
+
+          <div class="resource-filters">
+            <button class="filter-pill active" type="button">전체</button>
+            <button class="filter-pill" type="button">기출문제</button>
+            <button class="filter-pill" type="button">독해</button>
+            <button class="filter-pill" type="button">어휘</button>
+            <button class="filter-pill" type="button">문법</button>
+            <button class="filter-pill" type="button">논리</button>
+            <button class="filter-pill" type="button">에세이/작문</button>
+          </div>
+
+          <ul class="item-list">
+            <li class="item-card">
+              <div class="resource-title">2024 수능 영어 기출 PDF</div>
+              <div class="resource-meta">
+                위치: /자료/기출/2024_suneung.pdf · 태그: 독해, 함의, 빈칸
+              </div>
+            </li>
+            <li class="item-card">
+              <div class="resource-title">편입 독해 인강 정리 노트 (1~3강)</div>
+              <div class="resource-meta">
+                위치: /노트/독해/lecture_01_03.md · 태그: 구조독해, 흐름파악
+              </div>
+            </li>
+            <li class="item-card">
+              <div class="resource-title">MVP vol.1 DAY 01~20 단어 정리</div>
+              <div class="resource-meta">
+                위치: /어휘/mvp_vol1_day01_20.xlsx · 태그: 어휘, MVP vol.1
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <aside class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">
+                <span class="icon">➕</span>
+                자료 등록 폼
+              </div>
+              <div class="panel-sub">
+                새 PDF/노트/링크를 추가할 때 필요한 최소 정보 정리
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="res-name">자료 이름</label>
+            <input id="res-name" type="text" placeholder="예: MVP vol.1 DAY 21~40 단어 정리" />
+          </div>
+          <div class="field">
+            <label for="res-path">파일 경로 또는 링크</label>
+            <input id="res-path" type="text" placeholder="예: /어휘/mvp_vol1_day21_40.xlsx 또는 https://..." />
+          </div>
+          <div class="field">
+            <label for="res-tags">태그</label>
+            <input id="res-tags" type="text" placeholder="예: 어휘, MVP vol.1, 반복학습" />
+          </div>
+          <div class="btn-row">
+            <button class="btn-primary" type="button">자료 목록에 추가</button>
+          </div>
+          <div class="small-muted">
+            실제 파일은 클라우드(구글드라이브 등)에 두고, 이 사이트에는 이름·위치·태그만
+            정리해두면 관리가 쉬워집니다.
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- 공부 -->
+    <main id="study-view" class="view">
+      <div class="content-shell">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">
+                <span class="icon">✏️</span>
+                공부 기록
+              </div>
+              <div class="panel-sub">
+                날짜·영역·느낀 점까지 적는 “공부 일지” 공간
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="study-date">날짜</label>
+              <input id="study-date" type="date" />
+            </div>
+            <div class="field">
+              <label for="study-area">영역</label>
+              <select id="study-area">
+                <option>독해</option>
+                <option>어휘</option>
+                <option>문법</option>
+                <option>논리</option>
+                <option>에세이/작문</option>
+                <option>기출 종합</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="study-content">오늘 한 공부</label>
+            <textarea
+              id="study-content"
+              rows="4"
+              placeholder="예: 독해 기출 4지문 분석, 논리 문제 5문제, MVP vol.1 DAY 23-24 암기 등"
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label for="study-thought">느낀 점 / 내일 개선점</label>
+            <textarea
+              id="study-thought"
+              rows="3"
+              placeholder="예: 논리에서 선지 판단이 느리므로 내일은 선지 제거 연습 위주로 진행."
+            ></textarea>
+          </div>
+
+          <div class="study-tag-row">
+            <span class="study-tag">오늘 집중 잘 됨</span>
+            <span class="study-tag">컨디션 보통</span>
+            <span class="study-tag">컨디션 안 좋음</span>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn-primary" type="button">공부 기록 저장</button>
+          </div>
+        </section>
+
+        <aside class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">
+                <span class="icon">📊</span>
+                최근 일지 요약
+              </div>
+              <div class="panel-sub">
+                최근 일주일 정도의 기록을 간단히 리스트로 확인
+              </div>
+            </div>
+          </div>
+
+          <ul class="item-list">
+            <li class="item-card">
+              <div class="item-main">2025-11-26 · 독해</div>
+              <div class="item-meta">
+                <span>기출 3지문 + 구조 분석</span>
+                <span class="pill-soft">선지 검증 연습</span>
+              </div>
+            </li>
+            <li class="item-card">
+              <div class="item-main">2025-11-27 · 어휘</div>
+              <div class="item-meta">
+                <span>MVP vol.1 DAY 19-20</span>
+                <span class="pill-soft">헷갈리는 단어 정리</span>
+              </div>
+            </li>
+            <li class="item-card">
+              <div class="item-main">2025-11-28 · 논리</div>
+              <div class="item-meta">
+                <span>논리 문제 5문제</span>
+                <span class="pill-soft">오답 패턴 정리</span>
+              </div>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </main>
+
+    <!-- 메모 -->
+    <main id="memo-view" class="view">
+      <div class="content-shell">
+        <section class="panel memo-section">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">
+                <span class="icon">📝</span>
+                메모
+              </div>
+              <div class="panel-sub">
+                지문 아이디어, 깨달은 점, 선지 제거 팁 등 떠오르는 생각을 자유롭게 적는 공간
+              </div>
+            </div>
+          </div>
+
+          <textarea
+            placeholder="예:
+[독해] 문단 기능 먼저 잡고, 각 문단이 주장/근거/예시/반박 중 무엇인지 표시하기.
+[논리] 보기와 지문 구조를 나란히 두고, 결론이 어디서 어떻게 나오는지 확인하기.
+[어휘] MVP vol.1 헷갈리는 단어는 예문 2개 이상 직접 만들어 보기."
+          ></textarea>
+
+          <div class="memo-hint">
+            나중에 메모를 분류하고 싶다면, 맨 앞에
+            <code>[독해]</code>, <code>[논리]</code>, <code>[어휘]</code>처럼 태그를 붙여 두면
+            검색과 정리가 편해집니다.
+          </div>
+        </section>
+
+        <aside class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">
+                <span class="icon">💡</span>
+                고정 메모
+              </div>
+              <div class="panel-sub">
+                항상 눈에 띄게 두고 싶은 문장, 다짐, 공부 원칙
+              </div>
+            </div>
+          </div>
+          <ul class="goal-list">
+            <li class="goal-item">
+              <span class="label">정답은 항상 지문과 논리 안에 있다.</span>
+            </li>
+            <li class="goal-item">
+              <span class="label">감이 아니라 근거로 풀기.</span>
+            </li>
+            <li class="goal-item">
+              <span class="label">어제의 나와만 비교하기.</span>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // 탭 전환
+    const tabs = document.querySelectorAll(".nav-tab");
+    const views = document.querySelectorAll(".view");
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const targetId = tab.getAttribute("data-target");
+
+        tabs.forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+
+        views.forEach((v) => {
+          v.classList.toggle("active", v.id === targetId);
+        });
+      });
+    });
+
+    function toMidnight(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
+    // D-DAY 계산 (오늘 ~ 2027-03-02)
+    (function setupDDay() {
+      const target = new Date(2027, 2, 2); // 3월은 month=2
+      const today = toMidnight(new Date());
+      const diffMs = target.getTime() - today.getTime();
+      const oneDay = 1000 * 60 * 60 * 24;
+      const diffDays = Math.ceil(diffMs / oneDay);
+      const ddayTextEl = document.getElementById("dday-text");
+
+      if (diffDays > 0) {
+        ddayTextEl.textContent = `D-${diffDays} · 2027-03-02까지`;
+      } else if (diffDays === 0) {
+        ddayTextEl.textContent = `D-DAY · 2027-03-02`;
+      } else {
+        ddayTextEl.textContent = `D+${Math.abs(diffDays)} · 2027-03-02 이후`;
+      }
+    })();
+
+    // MVP vol.1 DAY 계산
+    // 기준일: 2025-11-29 = DAY 23-24, 하루에 2 days씩, DAY 60에서 다시 1로 순환
+    const baseDate = new Date(2025, 10, 29); // 11월은 month=10
+    const baseFirstDay = 23;
+    const thresholdDate = new Date(2025, 10, 28); // 2025-11-28 이전에는 캘린더에서 표시 X
+    const SCHEDULE_STORAGE_KEY = "skkusy-schedules";
+
+    function wrapDay(n) {
+      let r = n % 60;
+      if (r <= 0) r += 60;
+      return r;
+    }
+
+    function getMvpDayPair(date) {
+      const dMid = toMidnight(date);
+      const diffMs = dMid.getTime() - toMidnight(baseDate).getTime();
+      const oneDay = 1000 * 60 * 60 * 24;
+      const offset = Math.round(diffMs / oneDay);
+
+      const rawFirst = baseFirstDay + offset * 2;
+      const first = wrapDay(rawFirst);
+      const second = wrapDay(rawFirst + 1);
+
+      return { first, second };
+    }
+
+    function pad2(n) {
+      return n.toString().padStart(2, "0");
+    }
+
+    // 오늘 DAY 라벨 설정
+    (function setTodayDayLabel() {
+      const today = new Date();
+      const pair = getMvpDayPair(today);
+      const span = document.getElementById("today-day-text");
+      if (span) {
+        span.textContent = `DAY ${pair.first}-${pair.second}`;
+      }
+    })();
+
+    // 오늘 체크리스트 동적 항목
+    const checklistItemsEl = document.getElementById("checklist-items");
+    const addCheckItemBtn = document.getElementById("add-check-item");
+
+    function addChecklistItem(text = "") {
+      const row = document.createElement("div");
+      row.className = "check-item-row";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.className = "check-item-text";
+      input.value = text;
+      input.placeholder = "할 일을 입력하세요";
+
+      row.appendChild(checkbox);
+      row.appendChild(input);
+
+      checklistItemsEl.appendChild(row);
+    }
+
+    addCheckItemBtn.addEventListener("click", () => {
+      addChecklistItem();
+    });
+
+    // 처음에 한 줄은 기본으로 생성
+    addChecklistItem();
+
+    // 일정 저장/로드
+    function loadSchedules() {
+      const raw = localStorage.getItem(SCHEDULE_STORAGE_KEY);
+      if (!raw) return [];
+      try {
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveSchedules(list) {
+      localStorage.setItem(SCHEDULE_STORAGE_KEY, JSON.stringify(list));
+    }
+
+    // 캘린더 렌더링 (월요일 시작)
+    const calendarBody = document.getElementById("calendar-body");
+    const calendarMonthInput = document.getElementById("calendar-month");
+    const calendarMonthLabel = document.getElementById("calendar-month-label");
+    const goTodayMonthBtn = document.getElementById("go-today-month");
+
+    function renderCalendar(year, month) {
+      calendarBody.innerHTML = "";
+
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const daysInMonth = lastDay.getDate();
+
+      const jsWeekday = firstDay.getDay();
+      const startWeekday = (jsWeekday + 6) % 7; // 0=월,1=화,...6=일
+
+      calendarMonthLabel.textContent = `${year}년 ${String(month + 1).padStart(2, "0")}월`;
+
+      const totalCells = 42;
+      const schedules = loadSchedules();
+
+      for (let i = 0; i < totalCells; i++) {
+        const cell = document.createElement("div");
+        cell.className = "calendar-cell";
+
+        const dateNum = i - startWeekday + 1;
+        if (dateNum >= 1 && dateNum <= daysInMonth) {
+          const cellDate = new Date(year, month, dateNum);
+
+          const daySpan = document.createElement("span");
+          daySpan.className = "calendar-day-num";
+          daySpan.textContent = String(dateNum);
+          cell.appendChild(daySpan);
+
+          // DAY 표기 (2025-11-28 이후만)
+          if (cellDate >= thresholdDate) {
+            const pair = getMvpDayPair(cellDate);
+            const tagSpan = document.createElement("span");
+            tagSpan.className = "calendar-tag";
+            tagSpan.textContent = `DAY ${pad2(pair.first)}-${pad2(pair.second)}`;
+            cell.appendChild(tagSpan);
+          }
+
+          // 일정 인덱스 표시 (제목만, 클릭 시 상세)
+          const dateKey = `${year}-${String(month + 1).padStart(2, "0")}-${String(
+            dateNum
+          ).padStart(2, "0")}`;
+
+          schedules.forEach((item, idx) => {
+            if (item.date === dateKey) {
+              const idxSpan = document.createElement("span");
+              idxSpan.className = "calendar-index";
+              idxSpan.textContent = item.title || "(제목 없음)";
+              idxSpan.dataset.index = idx.toString();
+              idxSpan.addEventListener("click", () => showScheduleDetail(idx));
+              cell.appendChild(idxSpan);
+            }
+          });
+        }
+
+        calendarBody.appendChild(cell);
+      }
+    }
+
+    function setMonthInputTo(year, month) {
+      const value = `${year}-${String(month + 1).padStart(2, "0")}`;
+      calendarMonthInput.value = value;
+    }
+
+    (function initCalendar() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth();
+      setMonthInputTo(year, month);
+      renderCalendar(year, month);
+    })();
+
+    calendarMonthInput.addEventListener("change", () => {
+      const val = calendarMonthInput.value;
+      if (!val) return;
+      const [y, m] = val.split("-").map((v) => parseInt(v, 10));
+      const year = y;
+      const month = m - 1;
+      if (!isNaN(year) && !isNaN(month)) {
+        renderCalendar(year, month);
+      }
+    });
+
+    goTodayMonthBtn.addEventListener("click", () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth();
+      setMonthInputTo(year, month);
+      renderCalendar(year, month);
+    });
+
+    // 주차 키 계산 (이번 주 월요일 기준)
+    function getWeekKey() {
+      const today = new Date();
+      const day = today.getDay(); // 0=일,1=월,...6=토
+      const diff = day === 0 ? -6 : 1 - day; // 월요일까지 이동
+      const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + diff);
+      const y = monday.getFullYear();
+      const m = String(monday.getMonth() + 1).padStart(2, "0");
+      const d = String(monday.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    // 이번 주 포커스 / 체감진도 localStorage 관리
+    (function setupWeeklyTexts() {
+      const currentWeekKey = getWeekKey();
+      const storedWeekKey = localStorage.getItem("skkusy-weekKey");
+
+      // 주차가 바뀌면 기존 저장 내용 초기화
+      if (storedWeekKey && storedWeekKey !== currentWeekKey) {
+        Object.keys(localStorage)
+          .filter((k) => k.startsWith("skkusy-focus-") || k.startsWith("skkusy-progress-text"))
+          .forEach((k) => localStorage.removeItem(k));
+      }
+      localStorage.setItem("skkusy-weekKey", currentWeekKey);
+
+      const focusEls = document.querySelectorAll(".weekly-focus");
+      focusEls.forEach((el) => {
+        const key = el.getAttribute("data-focus-key");
+        const storeKey = `skkusy-${key}`;
+        const saved = localStorage.getItem(storeKey);
+        if (saved) {
+          el.textContent = saved;
+        }
+        el.addEventListener("input", () => {
+          localStorage.setItem(storeKey, el.textContent.trim());
+        });
+      });
+
+      const progressTextEl = document.getElementById("weekly-progress-text");
+      const progressStoreKey = "skkusy-progress-text";
+      const savedProgressText = localStorage.getItem(progressStoreKey);
+      if (savedProgressText) {
+        progressTextEl.textContent = savedProgressText;
+      }
+      progressTextEl.addEventListener("input", () => {
+        localStorage.setItem(progressStoreKey, progressTextEl.textContent.trim());
+      });
+    })();
+
+    // 일정 추가/목록/상세/수정/삭제
+    const scheduleTitleInput = document.getElementById("schedule-title");
+    const scheduleDateInput = document.getElementById("schedule-date");
+    const scheduleTimeInput = document.getElementById("schedule-time");
+    const scheduleTypeSelect = document.getElementById("schedule-type");
+    const schedulePlaceInput = document.getElementById("schedule-place");
+    const addScheduleBtn = document.getElementById("add-schedule-btn");
+    const scheduleListEl = document.getElementById("schedule-list");
+
+    const detailBox = document.getElementById("schedule-detail");
+    const detailTitle = document.getElementById("detail-title");
+    const detailDate = document.getElementById("detail-date");
+    const detailTime = document.getElementById("detail-time");
+    const detailType = document.getElementById("detail-type");
+    const detailPlace = document.getElementById("detail-place");
+    const closeDetailBtn = document.getElementById("close-detail-btn");
+
+    let editingIndex = null;
+
+    function renderScheduleList() {
+      const schedules = loadSchedules();
+      scheduleListEl.innerHTML = "";
+      schedules.forEach((item, idx) => {
+        const li = document.createElement("li");
+        li.className = "item-card";
+
+        const main = document.createElement("div");
+        main.className = "item-main";
+        const datePart = item.date || "날짜 미정";
+        const typePart = item.type || "기타";
+        main.textContent = `${datePart} · ${typePart}`;
+
+        const meta = document.createElement("div");
+        meta.className = "item-meta";
+
+        const titleSpan = document.createElement("span");
+        titleSpan.textContent = item.title || "";
+
+        const btnBox = document.createElement("span");
+        const editBtn = document.createElement("button");
+        editBtn.className = "btn-small";
+        editBtn.type = "button";
+        editBtn.textContent = "수정";
+        editBtn.addEventListener("click", () => startEditSchedule(idx));
+
+        const delBtn = document.createElement("button");
+        delBtn.className = "btn-small";
+        delBtn.type = "button";
+        delBtn.textContent = "삭제";
+        delBtn.addEventListener("click", () => deleteSchedule(idx));
+
+        btnBox.appendChild(editBtn);
+        btnBox.appendChild(delBtn);
+
+        meta.appendChild(titleSpan);
+        meta.appendChild(btnBox);
+
+        li.appendChild(main);
+        li.appendChild(meta);
+
+        scheduleListEl.appendChild(li);
+      });
+    }
+
+    function resetScheduleForm() {
+      scheduleTitleInput.value = "";
+      scheduleDateInput.value = "";
+      scheduleTimeInput.value = "";
+      scheduleTypeSelect.value = "독해";
+      schedulePlaceInput.value = "";
+      editingIndex = null;
+      addScheduleBtn.textContent = "일정 추가";
+    }
+
+    function startEditSchedule(index) {
+      const schedules = loadSchedules();
+      const item = schedules[index];
+      if (!item) return;
+
+      editingIndex = index;
+      scheduleTitleInput.value = item.title || "";
+      scheduleDateInput.value = item.date || "";
+      scheduleTimeInput.value = item.time || "";
+      scheduleTypeSelect.value = item.type || "독해";
+      schedulePlaceInput.value = item.place || "";
+      addScheduleBtn.textContent = "일정 수정";
+    }
+
+    function deleteSchedule(index) {
+      const schedules = loadSchedules();
+      if (index < 0 || index >= schedules.length) return;
+      schedules.splice(index, 1);
+      saveSchedules(schedules);
+      renderScheduleList();
+
+      // 캘린더 다시 렌더링
+      const val = calendarMonthInput.value;
+      if (val) {
+        const [y, m] = val.split("-").map((v) => parseInt(v, 10));
+        const year = y;
+        const month = m - 1;
+        if (!isNaN(year) && !isNaN(month)) {
+          renderCalendar(year, month);
+        }
+      }
+
+      // 상세보기 열려있으면 닫기
+      detailBox.classList.add("hidden");
+    }
+
+    addScheduleBtn.addEventListener("click", () => {
+      const title = scheduleTitleInput.value.trim();
+      const date = scheduleDateInput.value;
+      const time = scheduleTimeInput.value;
+      const type = scheduleTypeSelect.value;
+      const place = schedulePlaceInput.value.trim();
+
+      if (!title || !date) {
+        alert("일정 제목과 날짜는 반드시 입력해야 합니다.");
+        return;
+      }
+
+      const schedules = loadSchedules();
+
+      if (editingIndex !== null) {
+        // 수정
+        if (editingIndex >= 0 && editingIndex < schedules.length) {
+          schedules[editingIndex] = { title, date, time, type, place };
+        }
+      } else {
+        // 추가
+        schedules.push({ title, date, time, type, place });
+      }
+
+      saveSchedules(schedules);
+      renderScheduleList();
+      resetScheduleForm();
+
+      // 현재 선택된 달 다시 렌더링 (캘린더 인덱스 갱신)
+      const val = calendarMonthInput.value;
+      if (val) {
+        const [y, m] = val.split("-").map((v) => parseInt(v, 10));
+        const year = y;
+        const month = m - 1;
+        if (!isNaN(year) && !isNaN(month)) {
+          renderCalendar(year, month);
+        }
+      }
+    });
+
+    function showScheduleDetail(index) {
+      const schedules = loadSchedules();
+      const item = schedules[index];
+      if (!item) return;
+
+      detailTitle.textContent = item.title || "";
+      detailDate.textContent = item.date || "-";
+      detailTime.textContent = item.time || "시간 없음";
+      detailType.textContent = item.type || "기타";
+      detailPlace.textContent = item.place || "-";
+
+      detailBox.classList.remove("hidden");
+    }
+
+    closeDetailBtn.addEventListener("click", () => {
+      detailBox.classList.add("hidden");
+    });
+
+    (function initSchedules() {
+      renderScheduleList();
+    })();
+  </script>
+</body>
+</html>
