@@ -1236,11 +1236,25 @@
     }
 
     function updateTodayDayLabel() {
-      const today = new Date();
-      const pair = getMvpDayPair(today);
-      document.getElementById("today-day-text").textContent =
-        `DAY ${pair.first}-${pair.second}`;
-    }
+  const today = new Date();
+  const todayKey = getDateKeyFromDate(today);
+  const skipArr = loadSkipDates();
+
+  const labelEl = document.getElementById("today-day-label");
+  const textEl = document.getElementById("today-day-text");
+
+  // 1) 기준일(2025-12-03) 이전이거나
+  // 2) 오늘 날짜가 skip 처리되어 있으면 → DAY 표시 안 함
+  if (today < thresholdDate || isSkippedDate(todayKey, skipArr)) {
+    textEl.textContent = "DAY --";
+    return;
+  }
+
+  // 그 외에는 offset, 미루기, 삭제 상태를 반영해서 DAY 계산
+  const pair = getMvpDayPair(today);
+  textEl.textContent = `DAY ${pad2(pair.first)}-${pad2(pair.second)}`;
+}
+
 
     updateTodayDayLabel();
 
