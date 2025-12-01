@@ -502,11 +502,6 @@
       outline: none;
     }
 
-    .checklist-placeholder {
-      font-size: 12px;
-      color: var(--text-sub);
-    }
-
     .calendar-grid {
       margin-top: 8px;
       border-radius: var(--radius-lg);
@@ -566,6 +561,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      cursor: pointer;
     }
 
     .calendar-index {
@@ -674,6 +670,30 @@
         transform: translateY(0);
       }
     }
+
+    /* DAY 우클릭 메뉴 */
+    #day-context-menu {
+      position: absolute;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15);
+      font-size: 12px;
+      padding: 4px 0;
+      display: none;
+      z-index: 9999;
+      min-width: 120px;
+    }
+
+    .day-context-item {
+      padding: 6px 10px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .day-context-item:hover {
+      background: #f3f4f6;
+    }
   </style>
 </head>
 <body>
@@ -704,6 +724,7 @@
       </div>
     </nav>
 
+    <!-- 홈 -->
     <main id="home-view" class="view active">
       <div class="content-shell">
         <section class="panel">
@@ -780,6 +801,7 @@
       </div>
     </main>
 
+    <!-- 캘린더 -->
     <main id="calendar-view" class="view">
       <div class="content-shell">
         <section class="panel">
@@ -883,6 +905,7 @@
       </div>
     </main>
 
+    <!-- 자료 -->
     <main id="resources-view" class="view">
       <div class="content-shell">
         <section class="panel">
@@ -962,6 +985,7 @@
       </div>
     </main>
 
+    <!-- 공부 -->
     <main id="study-view" class="view">
       <div class="content-shell">
         <section class="panel">
@@ -1060,6 +1084,7 @@
       </div>
     </main>
 
+    <!-- 메모 -->
     <main id="memo-view" class="view">
       <div class="content-shell">
         <section class="panel memo-section">
@@ -1112,6 +1137,12 @@
     </main>
   </div>
 
+  <!-- DAY 우클릭 메뉴 -->
+  <div id="day-context-menu">
+    <div class="day-context-item" data-action="delay">미루기 (전체 +1일)</div>
+    <div class="day-context-item" data-action="delete">삭제 (해당 날짜만)</div>
+  </div>
+
   <script>
     const tabs = document.querySelectorAll(".nav-tab");
     const views = document.querySelectorAll(".view");
@@ -1131,6 +1162,7 @@
       return new Date(date.getFullYear(), date.getMonth(), date.getDate());
     }
 
+    // D-DAY
     (function setupDDay() {
       const target = new Date(2027, 2, 2);
       const today = toMidnight(new Date());
@@ -1148,10 +1180,13 @@
       }
     })();
 
-    const baseDate = new Date(2025, 10, 29);
-    const baseFirstDay = 23;
-    const thresholdDate = new Date(2025, 10, 28);
+    // MVP DAY 계산 관련
+    const baseDate = new Date(2025, 10, 29); // 2025-11-29
+    const baseFirstDay = 23; // DAY 23-24
+    const thresholdDate = new Date(2025, 10, 28); // 2025-11-28 이전은 표시 X
     const SCHEDULE_STORAGE_KEY = "skkusy-schedules";
+    const DAY_OFFSET_KEY = "skkusy-dayBaseOffset";
+    const DAY_SKIP_KEY = "skkusy-daySkipDates";
 
     function wrapDay(n) {
       let r = n % 60;
@@ -1159,12 +1194,42 @@
       return r;
     }
 
+    function loadDayOffset() {
+      return parseInt(localStorage.getItem(DAY_OFFSET_KEY) || "0", 10);
+    }
+
+    function saveDayOffset(offset) {
+      localStorage.setItem(DAY_OFFSET_KEY, String(offset));
+    }
+
+    function loadSkipDates() {
+      const raw = localStorage.getItem(DAY_SKIP_KEY);
+      if (!raw) return [];
+      try {
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveSkipDates(arr) {
+      localStorage.setItem(DAY_SKIP_KEY, JSON.stringify(arr));
+    }
+
+    function isSkippedDate(dateKey, skipArr) {
+      return skipArr.includes(dateKey);
+    }
+
     function getMvpDayPair(date) {
       const dMid = toMidnight(date);
       const diffMs = dMid.getTime() - toMidnight(baseDate).getTime();
       const oneDay = 1000 * 60 * 60 * 24;
-      const offset = Math.round(diffMs / oneDay);
-      const rawFirst = baseFirstDay + offset * 2;
+      const diff = Math.round(diffMs / oneDay);
+
+      const offset = loadDayOffset(); // 전역 offset (미루기 횟수)
+
+      const rawFirst = baseFirstDay + (diff * 2) + (offset * 2);
       const first = wrapDay(rawFirst);
       const second = wrapDay(rawFirst + 1);
       return { first, second };
@@ -1174,15 +1239,18 @@
       return n.toString().padStart(2, "0");
     }
 
-    (function setTodayDayLabel() {
+    function updateTodayDayLabel() {
       const today = new Date();
       const pair = getMvpDayPair(today);
       const span = document.getElementById("today-day-text");
       if (span) {
         span.textContent = `DAY ${pair.first}-${pair.second}`;
       }
-    })();
+    }
 
+    updateTodayDayLabel();
+
+    // 오늘 체크리스트
     const checklistItemsEl = document.getElementById("checklist-items");
     const addCheckItemBtn = document.getElementById("add-check-item");
 
@@ -1210,6 +1278,7 @@
 
     addChecklistItem();
 
+    // 일정 저장/로드
     function loadSchedules() {
       const raw = localStorage.getItem(SCHEDULE_STORAGE_KEY);
       if (!raw) return [];
@@ -1225,10 +1294,13 @@
       localStorage.setItem(SCHEDULE_STORAGE_KEY, JSON.stringify(list));
     }
 
+    // 캘린더
     const calendarBody = document.getElementById("calendar-body");
     const calendarMonthInput = document.getElementById("calendar-month");
     const calendarMonthLabel = document.getElementById("calendar-month-label");
     const goTodayMonthBtn = document.getElementById("go-today-month");
+
+    let currentContextDateKey = null;
 
     function renderCalendar(year, month) {
       calendarBody.innerHTML = "";
@@ -1237,13 +1309,14 @@
       const lastDay = new Date(year, month + 1, 0);
       const daysInMonth = lastDay.getDate();
 
-      const jsWeekday = firstDay.getDay();
-      const startWeekday = (jsWeekday + 6) % 7;
+      const jsWeekday = firstDay.getDay(); // 0(일)~6(토)
+      const startWeekday = (jsWeekday + 6) % 7; // 0=월,6=일
 
       calendarMonthLabel.textContent = `${year}년 ${String(month + 1).padStart(2, "0")}월`;
 
       const totalCells = 42;
       const schedules = loadSchedules();
+      const skipDates = loadSkipDates();
 
       for (let i = 0; i < totalCells; i++) {
         const cell = document.createElement("div");
@@ -1258,18 +1331,28 @@
           daySpan.textContent = String(dateNum);
           cell.appendChild(daySpan);
 
-          if (cellDate >= thresholdDate) {
-            const pair = getMvpDayPair(cellDate);
-            const tagSpan = document.createElement("span");
-            tagSpan.className = "calendar-tag";
-            tagSpan.textContent = `DAY ${pad2(pair.first)}-${pad2(pair.second)}`;
-            cell.appendChild(tagSpan);
-          }
-
           const dateKey = `${year}-${String(month + 1).padStart(2, "0")}-${String(
             dateNum
           ).padStart(2, "0")}`;
 
+          // DAY 태그 (threshold 이후 + skip 아닌 날만)
+          if (cellDate >= thresholdDate && !isSkippedDate(dateKey, skipDates)) {
+            const pair = getMvpDayPair(cellDate);
+            const tagSpan = document.createElement("span");
+            tagSpan.className = "calendar-tag";
+            tagSpan.textContent = `DAY ${pad2(pair.first)}-${pad2(pair.second)}`;
+
+            // 우클릭 메뉴
+            tagSpan.addEventListener("contextmenu", (e) => {
+              e.preventDefault();
+              currentContextDateKey = dateKey;
+              showDayContextMenu(e.pageX, e.pageY);
+            });
+
+            cell.appendChild(tagSpan);
+          }
+
+          // 일정 인덱스
           schedules.forEach((item, idx) => {
             if (item.date === dateKey) {
               const idxSpan = document.createElement("span");
@@ -1318,10 +1401,11 @@
       renderCalendar(year, month);
     });
 
+    // 주간 포커스/체감진도
     function getWeekKey() {
       const today = new Date();
-      const day = today.getDay();
-      const diff = day === 0 ? -6 : 1 - day;
+      const day = today.getDay(); // 0=일,1=월,...6=토
+      const diff = day === 0 ? -6 : 1 - day; // 월요일로 이동
       const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + diff);
       const y = monday.getFullYear();
       const m = String(monday.getMonth() + 1).padStart(2, "0");
@@ -1364,6 +1448,7 @@
       });
     })();
 
+    // 일정 관리
     const scheduleTitleInput = document.getElementById("schedule-title");
     const scheduleDateInput = document.getElementById("schedule-date");
     const scheduleTimeInput = document.getElementById("schedule-time");
@@ -1528,6 +1613,60 @@
     (function initSchedules() {
       renderScheduleList();
     })();
+
+    // DAY 우클릭 메뉴 동작
+    const dayContextMenu = document.getElementById("day-context-menu");
+
+    function showDayContextMenu(x, y) {
+      dayContextMenu.style.left = x + "px";
+      dayContextMenu.style.top = y + "px";
+      dayContextMenu.style.display = "block";
+    }
+
+    document.addEventListener("click", (e) => {
+      // 메뉴 밖 클릭 시 닫기
+      if (!dayContextMenu.contains(e.target)) {
+        dayContextMenu.style.display = "none";
+      }
+    });
+
+    dayContextMenu.addEventListener("click", (e) => {
+      const actionEl = e.target.closest(".day-context-item");
+      if (!actionEl || !currentContextDateKey) return;
+
+      const action = actionEl.dataset.action;
+      const skipArr = loadSkipDates();
+
+      if (action === "delay") {
+        // 해당 날짜 스킵 + 전체 offset +1
+        if (!skipArr.includes(currentContextDateKey)) {
+          skipArr.push(currentContextDateKey);
+          saveSkipDates(skipArr);
+        }
+        const currentOffset = loadDayOffset();
+        saveDayOffset(currentOffset + 1);
+      } else if (action === "delete") {
+        // 해당 날짜만 스킵
+        if (!skipArr.includes(currentContextDateKey)) {
+          skipArr.push(currentContextDateKey);
+          saveSkipDates(skipArr);
+        }
+      }
+
+      // 다시 렌더링
+      const val = calendarMonthInput.value;
+      if (val) {
+        const [y, m] = val.split("-").map((v) => parseInt(v, 10));
+        const year = y;
+        const month = m - 1;
+        if (!isNaN(year) && !isNaN(month)) {
+          renderCalendar(year, month);
+        }
+      }
+      updateTodayDayLabel();
+      dayContextMenu.style.display = "none";
+      currentContextDateKey = null;
+    });
   </script>
 </body>
 </html>
