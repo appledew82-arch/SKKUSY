@@ -79,6 +79,16 @@
       font-size: 18px;
       letter-spacing: 1px;
       color: #243b53;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    .brand-main-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .brand-text-main {
@@ -91,6 +101,20 @@
       font-size: 13px;
       color: var(--text-sub);
       margin-top: 3px;
+    }
+
+    .profile-upload-label {
+      display: inline-flex;
+      margin-top: 4px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 11px;
+      color: #4b5563;
+      background: #f9fafb;
+      cursor: pointer;
+      align-items: center;
+      gap: 4px;
     }
 
     .tag-pill {
@@ -699,12 +723,16 @@
   <div class="app-shell">
     <header>
       <div class="brand">
-        <div class="brand-logo">SY</div>
-        <div>
+        <div class="brand-logo" id="brand-logo">SY</div>
+        <div class="brand-main-block">
           <div class="brand-text-main">SKKUSY</div>
           <div class="brand-text-sub">
             편입 영어 아카이브 · 김시윤 전용 기록 공간
           </div>
+          <label class="profile-upload-label">
+            <span>이미지 변경</span>
+            <input type="file" id="profile-upload" accept="image/*" hidden />
+          </label>
         </div>
       </div>
       <div class="tag-pill" id="dday-pill">
@@ -723,7 +751,6 @@
       </div>
     </nav>
 
-    <!-- 홈 -->
     <main id="home-view" class="view active">
       <div class="content-shell">
         <section class="panel">
@@ -800,7 +827,6 @@
       </div>
     </main>
 
-    <!-- 캘린더 -->
     <main id="calendar-view" class="view">
       <div class="content-shell">
         <section class="panel">
@@ -904,7 +930,6 @@
       </div>
     </main>
 
-    <!-- 자료 -->
     <main id="resources-view" class="view">
       <div class="content-shell">
         <section class="panel">
@@ -977,14 +1002,12 @@
             <button class="btn-primary" type="button">자료 목록에 추가</button>
           </div>
           <div class="small-muted">
-            실제 파일은 클라우드(구글 드라이브 등)에 두고, 이 사이트에는 이름·위치·태그만
-            정리해두면 관리가 쉬워집니다.
+            실제 파일은 클라우드에 두고, 이 사이트에는 이름·위치·태그만 정리해두면 관리가 쉬워집니다.
           </div>
         </aside>
       </div>
     </main>
 
-    <!-- 공부 -->
     <main id="study-view" class="view">
       <div class="content-shell">
         <section class="panel">
@@ -1083,7 +1106,6 @@
       </div>
     </main>
 
-    <!-- 메모 -->
     <main id="memo-view" class="view">
       <div class="content-shell">
         <section class="panel memo-section">
@@ -1158,6 +1180,13 @@
       return new Date(date.getFullYear(), date.getMonth(), date.getDate());
     }
 
+    function getDateKeyFromDate(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
     (function setupDDay() {
       const target = new Date(2027, 2, 2);
       const today = toMidnight(new Date());
@@ -1175,14 +1204,16 @@
       }
     })();
 
-    // 🔹 MVP DAY 기준 설정: 2025-12-03 = DAY 25-26
-    const baseDate = new Date(2025, 11, 3);  // 12월은 month=11
+    const baseDate = new Date(2025, 11, 3);
     const baseFirstDay = 25;
-    const thresholdDate = new Date(2025, 11, 3); // 12/3 이전은 DAY 안 보임
+    const thresholdDate = new Date(2025, 11, 3);
 
     const SCHEDULE_STORAGE_KEY = "skkusy-schedules";
     const DAY_OFFSET_KEY = "skkusy-v2-dayBaseOffset";
     const DAY_SKIP_KEY = "skkusy-v2-daySkipDates";
+    const PROFILE_IMG_KEY = "skkusy-profile-image";
+    const CHECKLIST_PREFIX = "skkusy-checklist-";
+    const CHECKLIST_DATE_KEY = "skkusy-checklist-current-date";
 
     function wrapDay(n) {
       let r = n % 60;
@@ -1223,7 +1254,7 @@
       const oneDay = 1000 * 60 * 60 * 24;
       const diff = Math.round(diffMs / oneDay);
 
-      const offset = loadDayOffset(); // 미루기 누른 횟수 반영
+      const offset = loadDayOffset();
 
       const rawFirst = baseFirstDay + (diff * 2) + (offset * 2);
       const first = wrapDay(rawFirst);
@@ -1235,38 +1266,63 @@
       return n.toString().padStart(2, "0");
     }
 
+    function applyProfileImage(dataUrl) {
+      const logo = document.getElementById("brand-logo");
+      if (dataUrl) {
+        logo.style.backgroundImage = `url(${dataUrl})`;
+        logo.textContent = "";
+      } else {
+        logo.style.backgroundImage = "none";
+        logo.textContent = "SY";
+      }
+    }
+
+    (function initProfileImage() {
+      const saved = localStorage.getItem(PROFILE_IMG_KEY);
+      applyProfileImage(saved);
+      const input = document.getElementById("profile-upload");
+      input.addEventListener("change", (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const dataUrl = ev.target.result;
+          localStorage.setItem(PROFILE_IMG_KEY, dataUrl);
+          applyProfileImage(dataUrl);
+        };
+        reader.readAsDataURL(file);
+      });
+    })();
+
+    const todayLabelEl = document.getElementById("today-day-label");
+    const todayTextEl = document.getElementById("today-day-text");
+
     function updateTodayDayLabel() {
-  const today = new Date();
-  const todayKey = getDateKeyFromDate(today);
-  const skipArr = loadSkipDates();
+      const today = new Date();
+      const todayKey = getDateKeyFromDate(today);
+      const skipArr = loadSkipDates();
 
-  const labelEl = document.getElementById("today-day-label");
-  const textEl = document.getElementById("today-day-text");
+      if (today < thresholdDate || isSkippedDate(todayKey, skipArr)) {
+        todayLabelEl.style.display = "none";
+        return;
+      }
 
-  // 1) 기준일(2025-12-03) 이전이거나
-  // 2) 오늘 날짜가 skip 처리되어 있으면 → DAY 표시 안 함
-  if (today < thresholdDate || isSkippedDate(todayKey, skipArr)) {
-    textEl.textContent = "DAY --";
-    return;
-  }
-
-  // 그 외에는 offset, 미루기, 삭제 상태를 반영해서 DAY 계산
-  const pair = getMvpDayPair(today);
-  textEl.textContent = `DAY ${pad2(pair.first)}-${pad2(pair.second)}`;
-}
-
-
-    updateTodayDayLabel();
+      todayLabelEl.style.display = "inline-flex";
+      const pair = getMvpDayPair(today);
+      todayTextEl.textContent = `DAY ${pad2(pair.first)}-${pad2(pair.second)}`;
+    }
 
     const checklistItemsEl = document.getElementById("checklist-items");
     const addCheckItemBtn = document.getElementById("add-check-item");
+    let currentChecklistDateKey = null;
 
-    function addChecklistItem(text = "") {
+    function addChecklistItem(text = "", checked = false) {
       const row = document.createElement("div");
       row.className = "check-item-row";
 
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
+      checkbox.checked = checked;
 
       const input = document.createElement("input");
       input.type = "text";
@@ -1274,13 +1330,87 @@
       input.value = text;
       input.placeholder = "할 일을 입력하세요";
 
+      checkbox.addEventListener("change", saveCurrentChecklist);
+      input.addEventListener("input", saveCurrentChecklist);
+      input.addEventListener("blur", saveCurrentChecklist);
+
       row.appendChild(checkbox);
       row.appendChild(input);
       checklistItemsEl.appendChild(row);
     }
 
-    addCheckItemBtn.addEventListener("click", () => addChecklistItem());
-    addChecklistItem();
+    function saveChecklistFor(dateKey) {
+      const rows = checklistItemsEl.querySelectorAll(".check-item-row");
+      const data = [];
+      rows.forEach((row) => {
+        const checkbox = row.querySelector('input[type="checkbox"]');
+        const input = row.querySelector(".check-item-text");
+        const text = input.value.trim();
+        const checked = checkbox.checked;
+        if (text !== "" || checked) {
+          data.push({ text, checked });
+        }
+      });
+      localStorage.setItem(CHECKLIST_PREFIX + dateKey, JSON.stringify(data));
+      localStorage.setItem(CHECKLIST_DATE_KEY, dateKey);
+    }
+
+    function saveCurrentChecklist() {
+      if (!currentChecklistDateKey) return;
+      saveChecklistFor(currentChecklistDateKey);
+    }
+
+    function loadChecklistFor(dateKey) {
+      const raw = localStorage.getItem(CHECKLIST_PREFIX + dateKey);
+      if (!raw) return [];
+      try {
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function renderChecklistFor(dateKey) {
+      checklistItemsEl.innerHTML = "";
+      const data = loadChecklistFor(dateKey);
+      if (!data.length) {
+        addChecklistItem();
+      } else {
+        data.forEach((item) => {
+          addChecklistItem(item.text || "", !!item.checked);
+        });
+      }
+    }
+
+    function initChecklist() {
+      const todayKey = getDateKeyFromDate(new Date());
+      const storedDateKey = localStorage.getItem(CHECKLIST_DATE_KEY);
+      currentChecklistDateKey = todayKey;
+
+      if (storedDateKey === todayKey) {
+        renderChecklistFor(todayKey);
+      } else {
+        checklistItemsEl.innerHTML = "";
+        addChecklistItem();
+        saveChecklistFor(todayKey);
+      }
+    }
+
+    addCheckItemBtn.addEventListener("click", () => {
+      addChecklistItem();
+      saveCurrentChecklist();
+    });
+
+    setInterval(() => {
+      const nowKey = getDateKeyFromDate(new Date());
+      if (nowKey !== currentChecklistDateKey) {
+        currentChecklistDateKey = nowKey;
+        renderChecklistFor(nowKey);
+        saveChecklistFor(nowKey);
+        updateTodayDayLabel();
+      }
+    }, 60000);
 
     function loadSchedules() {
       const raw = localStorage.getItem(SCHEDULE_STORAGE_KEY);
@@ -1312,7 +1442,7 @@
       const daysInMonth = lastDay.getDate();
 
       const jsWeekday = firstDay.getDay();
-      const startWeekday = (jsWeekday + 6) % 7; // 월=0, 화=1, ..., 일=6
+      const startWeekday = (jsWeekday + 6) % 7;
 
       calendarMonthLabel.textContent = `${year}년 ${String(month + 1).padStart(2, "0")}월`;
 
@@ -1403,7 +1533,7 @@
     function getWeekKey() {
       const today = new Date();
       const day = today.getDay();
-      const diff = day === 0 ? -6 : 1 - day; // 월요일로 이동
+      const diff = day === 0 ? -6 : 1 - day;
       const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + diff);
       const y = monday.getFullYear();
       const m = String(monday.getMonth() + 1).padStart(2, "0");
@@ -1633,7 +1763,6 @@
           saveSkipDates(skipArr);
         }
         const currentOffset = loadDayOffset();
-        // 🔹 하루 "뒤로 미루기" → offset -1 (오늘 거가 내일로 가게)
         saveDayOffset(currentOffset - 1);
       } else if (action === "delete") {
         if (!skipArr.includes(currentContextDateKey)) {
@@ -1655,6 +1784,9 @@
       dayContextMenu.style.display = "none";
       currentContextDateKey = null;
     });
+
+    initChecklist();
+    updateTodayDayLabel();
   </script>
 </body>
 </html>
